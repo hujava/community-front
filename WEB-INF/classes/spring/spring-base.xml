@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+                        http://www.springframework.org/schema/mvc 
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                       	http://www.springframework.org/schema/cache
+           				http://www.springframework.org/schema/cache/spring-cache.xsd
+           				http://www.springframework.org/schema/util 
+     					http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+    <!-- 加载数据源配置文件 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+				<value>classpath:db-config.properties</value>
+				<value>classpath:redis.properties</value>
+			</list>
+		</property>
+	</bean>
+    <context:component-scan base-package="org.community"/>
+    <mvc:annotation-driven>
+    	<mvc:message-converters register-defaults="true">
+            <bean class="org.community.controller.MJFastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json</value>
+                        <value>application/xml;charset=UTF-8</value>
+                        <value>application/jsonp</value>
+                    </list>
+                </property>
+                <property name="features">
+			        <array value-type="com.alibaba.fastjson.serializer.SerializerFeature">
+			           <value>DisableCircularReferenceDetect</value>
+			        </array>
+		      </property>
+            </bean>
+     </mvc:message-converters>
+    </mvc:annotation-driven>
+    <bean id="DisableCircularReferenceDetect" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+      <property name="staticField" value="com.alibaba.fastjson.serializer.SerializerFeature.DisableCircularReferenceDetect"></property>
+   </bean>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix" value=".jsp" />
+	</bean>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+    <import resource="classpath*:spring/spring-db.xml" />
+    <import resource="classpath*:spring/spring-security.xml" />
+    <!-- 缓存管理 -->
+    <cache:annotation-driven cache-manager="cacheManager" key-generator="cacheKeyGenerator"/>
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+            	<!-- 这里可以配置多个redis -->  
+                <bean class="org.community.cache.RedisCache">    
+                     <property name="redisTemplate" ref="redisTemplate" />    
+                     <property name="name" value="content"/>
+                     <!-- name对应的名称要在类或方法的注解中使用 -->  
+                </bean>
+            </set>
+        </property>
+    </bean>
+    <bean id="cacheKeyGenerator" class="org.community.filter.CacheKeyGenerator"></bean>
+    <!-- redis连接池 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+         <!--最大连接数 -->
+         <property name="maxTotal" value="4000" />
+          <!--最大空闲连接数 -->
+         <property name="maxIdle" value="${redis.maxIdle}" /> 
+         <!--获取连接时最大等待毫秒数,如果该值小于0,则阻塞不确定的时长,默认值-1 -->
+         <property name="maxWaitMillis" value="${redis.maxWait}" />
+         <!--在获取连接时检查连接有效性,默认为false -->
+         <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+         <!--连接耗尽是否阻塞,false代表抛异常,true代表阻塞直到超时,默认为true -->
+         <property name="blockWhenExhausted" value="false"/>
+         <property name="testWhileIdle" value="true"/>
+         <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+    </bean>
+    <!-- 连接工厂 -->
+    <bean id="JedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+    	    <property name="hostName" value="${redis.host}" />
+    	    <property name="port" value="${redis.port}" />
+    	    <property name="password" value="${redis.pass}" />
+    	    <property name="poolConfig" ref="poolConfig" />
+    </bean>
+    <!-- redis模板 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">    
+        <property name="connectionFactory" ref="JedisConnectionFactory" />
+    </bean>
+</beans>

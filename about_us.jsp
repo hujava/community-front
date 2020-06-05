@@ -1,0 +1,147 @@
+<%@page import="org.springframework.security.core.GrantedAuthority"%>
+<%@page import="org.community.model.UserEntity"%>
+<%@page import="org.springframework.security.core.context.SecurityContextImpl"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+Object obj=request.getSession()
+				.getAttribute("SPRING_SECURITY_CONTEXT");
+String userName = "";
+String userIt = "";
+String userImage = "";
+if(obj!=null){
+	SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
+				.getAttribute("SPRING_SECURITY_CONTEXT");
+	if (securityContextImpl != null && securityContextImpl.getAuthentication() != null
+		&& securityContextImpl.getAuthentication().getPrincipal() != null) {
+		UserEntity userDetails = (UserEntity) securityContextImpl.getAuthentication().getPrincipal();
+        userName = userDetails.getUsername();
+        userIt=userDetails.getAlias_name();
+        userImage=userDetails.getUserUrl();
+	}
+}
+
+%>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>关于我们</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/tab/jquery.cardtabs.css">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="css/pagination/pagination.css">
+
+    <style>
+        *,
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑";
+        }
+
+        .HolyGrail {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .about_u {
+            width: 1200px;
+            margin-top: 40px;
+        }
+
+        /* 学习课堂 */
+        .adposition_banner {
+            width: 100%;
+            margin: 0 auto;
+            /* background-image: linear-gradient(90deg, #3bcd86, #FFFFFF, #3bcd86); */
+            position: relative;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            -moz-background-size: 100% 100%;
+            overflow: hidden;
+            text-align: center;
+            color: #fff;
+            height: 275px;
+        }
+
+        .adposition_banner>img {
+            width: 100%;
+            min-width: 1100px;
+            /* height: 220px; */
+            display: block;
+            object-fit: cover;
+        }
+
+        .adposition_title {
+            width: 100%;
+            height: 220px;
+            line-height: 220px;
+            font-size: 38px;
+            text-align: center;
+            font-family: "宋体";
+            font-weight: bold;
+            position: absolute;
+            color: #fff;
+            top: 0;
+            left: 0;
+        }
+
+        .line-left {
+            width: 40px;
+            border-bottom: 2px solid #fff;
+            margin-right: 5px;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        .line-right {
+            width: 40px;
+            border-bottom: 2px solid #fff;
+            margin-left: 5px;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+        .foot {
+            position: absolute;
+            width: 100%;
+            bottom: 0px;
+        }
+    </style>
+
+</head>
+
+<body class="HolyGrail">
+    <!-- 导入头部文件 -->
+    <jsp:include page="header.jsp" />
+    <div class="adposition_banner">
+        <img src="">
+        <div class="adposition_title">
+            <div class="line-left"></div>
+            关于我们
+            <div class="line-right"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- <img class="about_u" src="images/about_us.png"> -->
+    </div>
+
+
+    <!-- 导入尾部文件 -->
+    <!-- 导入尾部文件 -->
+    <div class="foot">
+        <jsp:include page="footer.jsp" />
+    </div>
+</body>
+
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap/bootstrap.min.js"></script>
+<script src="js/about_us.js"></script>
+
+
+</html>

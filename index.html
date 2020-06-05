@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>youhui</title>
+    <meta name="viewport" content="width=750">
+    <!-- <link rel="shortcut icon" href="./favicon.ico" />  -->
+    <script src="./static/mobile-util.js"></script>
+    <script src="./static/vue.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .bscroll-view {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .list {
+            padding: 30px 30px;
+        }
+
+        .item {
+            box-shadow: 0 0 15px rgba(0, 0, 0, .5);
+            height: 400px;
+            margin: 0 0 30px 0;
+        }
+
+        .itemHead {
+            height: 300px;
+            background-color: #000;
+        }
+
+        .itemVideo {
+            height: 300px;
+            /* width: 690px; */
+            width: 100%;
+        }
+
+        .itemBody {
+            padding: 0 30px;
+            display: flex;
+        }
+
+        .itemName {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 34px;
+            line-height: 100px;
+            height: 100px;
+        }
+
+        .itemFabulous {
+            width: 140px;
+            box-sizing: border-box;
+        }
+
+        .itemFabulousIcon {
+            display: block;
+            margin: 0 auto;
+            width: 45px;
+            height: 45px;
+            margin: 15px 0 0 0;
+        }
+
+        .itemFabulousNum {
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .itemFabulousBtn {
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid #0095ff;
+            color: #0095ff;
+            font-size: 17px;
+            margin: 25px auto 0 auto;
+        }
+        .itemFabulousBtnActive {
+            /* background-color: rgba(0, 0, 0, .5); */
+            background-color: #0095ff;
+            color: #fff;
+        }
+        .itemFabulousBtnClose {
+            background-color: rgba(0, 0, 0, .5);
+            color: #fff;
+        }
+
+        .itemFabulousBtnNum {
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .loading {
+            display: block;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 40px;
+            color: rgba(0, 0, 0, .2);
+        }
+
+        .loading img {
+            width: 50px;
+            height: 50px;
+        }
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -175px;
+            background: rgba(0, 0, 0, .6);
+            color: #fff;
+            border-radius: 10px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            z-index: 100;
+            width: 100px;
+            font-size: 30px;
+            width: 350px;
+        }
+    </style>
+    <script src="./static/axios.min.js"></script>
+    <script src="./static/bscroll.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="bscroll-view">
+            <div class="list">
+                {{vote}}
+                <div class="item" v-for="(item, index) of list" :key="index">
+                    <div class="itemHead">
+                        <video :src="item.smallVideo_url" controls :poster="item.sv_image" alt="" class="itemVideo">
+                    </div>
+                    <div class="itemBody">
+                        <div class="itemName">{{item.sv_title}}</div>
+                        <div class="itemFabulous">
+                            <div class="itemFabulousBtn" :class="{'itemFabulousBtnActive': vote == item.sv_id}" @click="toFabulous(index)">{{vote == item.sv_id ? '已投票' : '投票'}} <div class="itemFabulousBtnNum">{{item.tpNum}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="loading" v-if="loading">
+                    <img src="./static/imgs/loading.gif" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="toast" v-if="toastShow">已经投票过了哦~</div>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            pageData: {
+                url: '',
+                code: ''
+            },
+            list: [
+            ],
+            vote: null,
+            scroll: null,
+            wxData: {
+                appId: '',
+                appSerect: ''
+            },
+            requestData: {
+                page: 0,
+                rows: 10
+            },
+            loading: false,
+            toast: 'cccc',
+            toastShow: false
+        },
+        methods: {
+            // 获取列表
+            getList() {
+                if (this.loading) {
+                    return
+                }
+                this.loading = true
+                axios({
+                    method: 'post',
+                    url: this.pageData.url + 'smallVideoController/smallVideoList.do',
+                    data: this.requestData
+                }).then((res) => {
+                    console.log(res)
+                    this.list = this.list.concat(res.data.Data.Rows)
+                    this.requestData.page++
+                    this.loading = false
+                    this.$nextTick(() => {
+                        this.scroll.refresh() // DOM 结构发生变化后，重新初始化BScroll
+                    })
+                    this.scroll.finishPullUp();//可以多次执行上拉刷新
+                })
+            },
+            // 点赞
+            toFabulous(index) {
+                // 已投过票
+                if (this.vote !== null) {
+                    this.toastShow = true
+                    setTimeout(() => {
+                        this.toastShow = false
+                    }, 1000)
+                    return
+                }
+                axios({
+                    method: 'post',
+                    url: this.pageData.url + 'smallVideoController/updateSmallVideo.do',
+                    data: {
+                        wxcode: this.code,
+                        sv_id: this.list[index].sv_id
+                    }
+                }).then((res) => {
+                    localStorage.setItem("vote", this.list[index].sv_id);
+                    this.vote = this.list[index].sv_id
+                    this.list[index].tpNum++
+                })
+            },
+            /* 获取当前服务器地址 */
+            getRootPath() {
+                var curWwwPath = window.document.location.href; //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+                var pathName = window.document.location.pathname; //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+                var pos = curWwwPath.indexOf(pathName);
+                var localhostPaht = curWwwPath.substring(0, pos); //获取主机地址，如： http://localhost:8083
+                var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1); //获取带"/"的项目名，如：/uimcardprj
+                console.log(curWwwPath)
+                return (localhostPaht + projectName + "/");
+            },
+            /* 地址栏参数截取 */
+            GetQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+        },
+        created() {
+            // this.pageData = {
+            //     url: this.getRootPath(),
+            //     code: this.GetQueryString('code')
+            // }
+            this.pageData = {
+                url: window.document.location.href.split('?')[0],
+                code: this.GetQueryString('code')
+            }
+            console.log(this.pageData)
+            // localStorage.clear();
+            this.vote = localStorage.getItem("vote")
+            this.getList()
+        },
+        mounted() {
+            let wrapper = document.querySelector('.bscroll-view')
+            this.scroll = new BScroll(wrapper, {
+                pullUpLoad: {
+                    threshold: 744
+                },
+                mouseWheel: true, 
+                click: true, 
+                tap: true,
+                useTransition: false
+            })
+
+            this.scroll.on("pullingUp", () => {
+                console.log("上拉加载")
+                this.getList()
+            });
+        }
+    })
+</script>
+
+</html>

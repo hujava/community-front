@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>load</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style>
+		.result{height: 80px;border-bottom:1px solid #ececec;padding-top: 20px;}
+		.result>img{width: 40px;height: 40px;border-radius:50%;margin-left: 30px;}
+		.result>span{margin-left: 30px;}
+	</style>
+</head>
+
+<body>
+<div class="ajax_option">
+		<!-- <div class="result"><img src="images/login.jpg"/><span>这是Ajax加载的第2项内容</span></div>
+		<div class="result"><img src="images/login.jpg"/><span>这是Ajax加载的第3项内容</span></div>
+		<div class="result"><img src="images/login.jpg"/><span>这是Ajax加载的第4项内容</span></div>
+		<div class="result"><img src="images/login.jpg"/><span>这是Ajax加载的第5项内容</span></div> -->
+</div>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/pagination/jquery.pagination.js"></script>
+<script type="text/javascript">
+    		/* 获取当前服务器地址 */
+			function getRootPath() {
+				//获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+				var curWwwPath = window.document.location.href;
+				//获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+				var pathName = window.document.location.pathname;
+				var pos = curWwwPath.indexOf(pathName);
+				//获取主机地址，如： http://localhost:8083
+				var localhostPaht = curWwwPath.substring(0, pos);
+				//获取带"/"的项目名，如：/uimcardprj
+				var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+				return (localhostPaht + projectName + "/");
+			}
+			var httpXhr = getRootPath();
+
+			/* 地址栏参数截取 */
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) return unescape(r[2]);
+				return null;
+			};
+			var aid = GetQueryString("aid"); //课程ID
+			if (aid != null && aid.toString().length > 1) {
+				var aid = aid;
+			}
+			$.ajax({
+				type: "get",
+				url: httpXhr + "informationController/informationList.do?f_type=1&tj=1",
+				dataType: "json",
+				async:false,
+				success: function (data) {
+					
+					var str="";
+					for(var i=0;i<data.rows.length;i++){
+						str+="<div class=\"result\"><img src=\"images/login.jpg\"/><span>"+data.rows[i].f_center+"</span></div>";
+					}
+					$(".ajax_option").append(str);
+				}
+			});
+</script>
+</body>
+</html>

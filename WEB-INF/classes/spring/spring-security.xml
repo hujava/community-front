@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security.xsd" >
+    
+    <!-- 打印调试信息，仅在开发环境中使用 -->
+    <!-- <debug/> -->
+    <!-- 不需要拦截的请求 -->
+    <http pattern="/**/index.jsp" security="none"/>
+    <http pattern="/**/*.css" security="none"/>
+    <http pattern="/**/*.jpg" security="none"/>
+    <http pattern="/**/*.jpeg" security="none"/>
+    <http pattern="/**/*.gif*" security="none"/>
+    <http pattern="/**/*.img*" security="none"/>
+    <http pattern="/**/*.png" security="none"/>
+    <http pattern="/**/*.js*" security="none"/>
+    <http pattern="/**/*.ttf*" security="none"/>
+   	<http pattern="/**/*.woff*" security="none"/>
+   	<http pattern="/**/*.svg" security="none"/>
+   	<http pattern="/**/*.eot*" security="none"/>
+   	<http pattern="/**/*.map" security="none"/>
+   	<http pattern="/**/*.jsp" security="none"/>
+   	<http pattern="/**/auditionController/addAudition*" security="none"/>
+   	<http pattern="/**/courseAndActivityController/selectCourseAndActivity*" security="none"/>
+   	<http pattern="/subjectController/**" security="none"/>
+   	<http pattern="/**/courseAndSubjectController/selectCourseAndSubject*" security="none"/>
+   	<http pattern="/**/courseAndTeacherController/selectCourseAndTeacher*" security="none"/>
+   	<http pattern="/**/courseController/**" security="none"/>
+   	<http pattern="/**/courseAndResultController/courseAndResultList*" security="none"/>
+   	<http pattern="/**/courseAndPurchSchoolController/courseAndPurchSchoolList*" security="none"/>
+   	<http pattern="/**/courseAndCaseController/selectCourseAndCase*" security="none"/>
+   	<http pattern="/**/cmdAndGroupController/selectCmdAndGroup*" security="none"/>
+   	<http pattern="/**/getFileController/getFile*" security="none"/>
+   	<http pattern="/**/commodityController/commodityList*" security="none"/>
+   	<http pattern="/**/dataManageController/dataManageList*" security="none"/>
+   	<http pattern="/**/*.html" security="none"/>
+   	<http pattern="/**/uploadExcelFileController/export*" security="none"/>
+   	<http pattern="/**/smallVideoController/**" security="none"/>
+   	<http pattern="/**/activityController/**" security="none"/>
+   	<http pattern="/**/registrationActivityController/**" security="none"/>
+   	<http pattern="/**/messageTableController/**" security="none"/>
+   	<http pattern="/**/userController/**" security="none"/>
+    <!-- 不需要被拦截的请求 -->
+    <http auto-config="true" use-expressions="true">
+        <!-- 禁用CSRF保护，默认是启用 -->
+        <csrf disabled="true"/>
+        <anonymous enabled="false"/>
+        <headers disabled="false"></headers>
+        <intercept-url pattern="/sms/loginMobile.do" access="authenticated" />
+        <!-- Ensures that any request to our application requires the user to be authenticated 
+        <intercept-url pattern="/**" access="authenticated"/>
+ 		-->
+        <!-- 
+            login-page : 表示用户登陆时显示我们自定义的登录页面
+            authentication-failure-url : 登录认证失败转向的url,当用户输入的登录名和密码不正确时，系统将再次跳转到登录页面，并添加一个error=true参数作为登陆失败的标示,这个标识是我们自定义的。
+            default-target-url : 登录认证成功转向的地址
+         -->
+        <form-login 
+            login-page="/index.jsp" 
+	    	authentication-failure-handler-ref="loginAuthenticationFailureHandler"
+	    	always-use-default-target="true" 
+	    	authentication-success-handler-ref="loginAuthenticationSuccessHandler" login-processing-url="/login.do" username-parameter="username" password-parameter="password"
+    	/>
+        <!-- 登出后，返回到登陆页面 -->
+        <logout logout-success-url="/userController/logoutUser.do" invalidate-session="true" logout-url="/logout.do" delete-cookies="JSESSIONID"/>
+        
+        <session-management invalid-session-url="/main.jsp" >
+            <concurrency-control max-sessions="1" expired-url="/main.jsp"/>
+        </session-management>
+        
+        <!-- 指定自己的权限验证过滤器，首先走自己的的过滤器 myFilter，如果被拦截就报没有权限；
+             如果通过会走spring security自带的拦截器，即上面配置的权限配置！
+        -->
+        <custom-filter before="FORM_LOGIN_FILTER" ref="facodeFilter"/>
+        <custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="securityFilter"/>
+    </http>
+    <beans:bean name="loginAuthenticationFailureHandler" class="org.community.filter.LoginAuthenticationFailureHandler"/>
+    <beans:bean name="loginAuthenticationSuccessHandler" class="org.community.filter.LoginAuthenticationSuccessHandler"/>
+    
+    <!-- 权限认证Spring日志监听器  -->
+    <beans:bean class="org.springframework.security.authentication.event.LoggerListener"/>
+    <beans:bean class="org.springframework.security.access.event.LoggerListener"/>
+    
+    <!-- 配置认证管理器 -->
+	<beans:bean name="securityFilter" class="org.community.filter.MyFilterSecurityInterceptor">
+        <!-- 用户拥有的权限 -->    
+        <beans:property name="authenticationManager" ref="reAuthenticationManager" />
+        <!-- 决策管理 -->
+        <beans:property name="accessDecisionManager" ref="reAccessDecisionManager" />
+        <!-- 资源与权限对应关系 -->    
+        <beans:property name="securityMetadataSource" ref="reSecurityMetadataSource" />
+    </beans:bean>
+    <authentication-manager alias="reAuthenticationManager">
+        <authentication-provider  user-service-ref="userDetailsService">
+        	<password-encoder ref="md5password">
+        	</password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+    <beans:bean name="userDetailsService" class="org.community.filter.ReUserDetailsService"></beans:bean>
+    <!-- 配置短信认证管理器 -->
+	<beans:bean name="facodeFilter" class="org.community.filter.SmsCodeAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="providerManager"></beans:property>
+	</beans:bean>
+	<beans:bean id="providerManager" class="org.community.filter.SmsAuthenticationManager">
+		<beans:property name="authenticationProvider" ref="smsCodeAuthenticationProvider"></beans:property>
+	</beans:bean>
+	<beans:bean id="smsCodeAuthenticationProvider" class="org.community.filter.SmsCodeAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="smsUserDetailsService" />
+	</beans:bean>
+	<beans:bean name="smsUserDetailsService" class="org.community.filter.SmsUserDetailsService"></beans:bean>
+	
+    <beans:bean id="reAccessDecisionManager" class="org.community.filter.ReAccessDecisionManager"></beans:bean>
+    <beans:bean id="reSecurityMetadataSource" class="org.community.filter.ReSecurityMetadataSource"></beans:bean>
+	<!-- 密码加密策略 -->  
+    <beans:bean name="md5password" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+    </beans:bean>
+    <beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <beans:property name="basenames" value="classpath:org/springframework/security/messages_zh_CN"></beans:property>
+    </beans:bean>
+</beans:beans>

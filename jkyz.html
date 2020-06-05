@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="ie8"><![endif]-->
+<!--[if IE 9]><html class="ie9"><![endif]-->
+<!--[if (gt IE 9) | !(IE)]><!-->
+<html>
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="author" content="www.fractal-technology.com">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+
+    <meta name="keywords" content="幼儿园【官网】" />
+    <meta name="description" content="北京静宇娴风学校（电话：400-800-4033）是一所提供：从国际幼儿园至国际高中连续15年国际教育的国际学校,享有4大国际高中课程：美国高中、英国高中、澳洲高中以及艺术高中，给您多元通道升入海外名校。也是美国高考ACT、澳洲高考WACE、英国高考A-Level及托福、雅思等考点。静宇娴风希望提供更适合您的高端国际教育，同时期待您的光临！" />
+
+    <title>北京静宇娴风 - 幼儿园【官网】</title>
+    <script src="./Public/static/themes/js/jquery.min.js"></script>
+    <script src="./Public/static/themes/js/jquery.mousewheel.js"></script>
+    <script src="./Public/static/themes/js/global.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./Public/static/themes/css/global.css">
+    <link rel="stylesheet" type="text/css" href="./Public/static/themes/css/page.css">
+    <link rel="stylesheet" type="text/css" href="./Public/static/themes/css/jquery.mCustomScrollbar.css">
+    <script src="./Public/static/themes/js/jquery.mCustomScrollbar.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Public/static/themes/slick/slick.css">
+    <script src="./Public/static/themes/slick/slick.js"></script>
+    <script src="./Public/static/themes/js/jquery.mScroll.js"></script>
+    <script src="./Public/static/themes/js/imagesloaded.pkgd.min.js"></script>
+    <script src="./Public/static/themes/js/wookmark.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Public/static/themes/css/xf.css">
+    <link rel="stylesheet" type="text/css" href="./Public/static/themes/css/all.css" />
+    <!-- b -->
+</head>
+<style type="text/css">
+    .header {
+        z-index: 10
+    }
+</style>
+
+<body>
+    <a href="javascript:;" class="body_bg"></a>
+    <script>
+        $(function() {
+            $('.logo .widget-area-edit-bg,.logo .widget-area-edit-title').remove();
+            $('.footer .widget-area-edit-bg,.footer .widget-area-edit-title').remove();
+            $('.foot_com .widget-area-edit-bg,.foot_com .widget-area-edit-title').remove();
+        });
+    </script>
+    <div class="body">
+        <style>
+            .empty-data {
+                width: 100%;
+                font-size: 25px;
+                padding-top: 8%;
+                padding-bottom: 8%;
+                text-align: center;
+            }
+        </style>
+
+        <style>
+            #myalert {
+                display: none;
+            }
+            
+            .recruit .block1 {
+                height: auto
+            }
+            
+            .layer {
+                background: url(./Public/static/themes/image/con_mask.png);
+                ;
+                position: fixed;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1000000;
+            }
+            
+            .layer .myalert {
+                padding: 30px;
+                background: #fff;
+                width: 240px;
+                position: absolute;
+                margin-top: -100px;
+                top: 50%;
+                left: 50%;
+                margin-left: -150px;
+                text-align: center;
+                z-index: 100000
+            }
+            
+            .layer .guan {
+                background: url(./Public/static/themes/image/clos.png) no-repeat center;
+                display: block;
+                width: 23px;
+                height: 23px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+            
+            .layer .text {
+                padding-bottom: 15px;
+                font-size: 18px;
+                color: #474747;
+            }
+            
+            .layer .button {
+                background: none;
+                border: 1px solid #bbbbbb;
+                width: 91px;
+                height: 29px;
+                font: 14px/100% "Microsoft YaHei", Arial, Tahoma, Helvetica, sans-serif;
+                color: #707070;
+            }
+        </style>
+        <!-- <div id="myalert" class="layer">
+    <div class="myalert">
+        <a href="javascript:;" onclick="myalert_hide();" class="guan"></a>
+        <div class="text">Please enter the keyword</div>
+        <a><button class="button" id="my_ok" style="cursor:pointer ;opacity: 1;transform: translateY(0px);">OK</button></a>
+    </div>
+</div> -->
+        <div class="pop_wp cg" id="myalert" style="z-index: 1000000;">
+            <div class="cont" style="z-index: 100000;">
+                <div class="close" onclick="myalert_hide();"></div>
+                <div class="padd">
+                    <div class="l">
+                        <div class="img"><img src="./Public/static/themes/image/false.png" title="" alt="" /></div>
+                        <div class="t1">提示</div>
+                    </div>
+                    <div class="r">
+                        <div class="txt" style="font-size:18px;">我们的招生老师将会在24小时之内与您联系，请您保持电话畅通和注意接听！</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function my_alert(title, url) {
+                $('#myalert').show();
+                $('#myalert .padd .r .txt').html(title);
+                if (url) {
+                    $('#my_ok').click(function() {
+                        window.location.href = url;
+                    });
+                } else {
+                    $('#my_ok').click(function() {
+                        $('#myalert').hide();
+                    });
+                }
+                $('#myalert .close').click(function() {
+                    $('#verify').click();
+                    $('#verifyss').click();
+                });
+            }
+
+            function myalert_hide() {
+                $('#myalert').hide();
+            }
+        </script>
+        <div class="pop_zs " style="display:none">
+            <div class="cont">
+                <div class="bgi_wp">
+                    <img class="img1" src="./Public/static/themes/image/bgi3.png" title="" alt="" />
+                    <img class="img2" src="./Public/static/themes/image/bgi2.png" title="" alt="" />
+                    <img class="img3" src="./Public/static/themes/image/bgi1.png" title="" alt="" />
+                </div>
+                <a href="javascript:;" class="close"></a>
+                <a href="javascript:video(0);">
+                    <div class="text">
+                        <div class="imgs"> <img title="" src="/Uploads/Picture/2019/02/11/s5c61206c3d46e.png" alt=""></div>
+                        <div class="p">
+                            <span>多通道升学</span> <span>连续15年一站式高端教育</span> <span>全国招生</span> </div>
+                        <div class="pic">
+                            <a target="_blank" href="javascript:video(0);">
+                                <img src="/Uploads/Picture/2018/04/03/s5ac2edf7a9af4.png" alt="" title="" />
+                            </a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function() {
+                if ($(window).width() > 1020) {
+                    setTimeout(function() {
+                        $('.pop_zs').show()
+                    }, 10000);
+                    console.log('1223');
+                }
+            });
+            $('.pop_zs a.close').on('click', function() {
+                $('.pop_zs').hide();
+            });
+        </script>
+        <div class="header">
+            <a href="javascript:;" class="menu_h"><span></span></a>
+            <div class="wrap">
+                <div class="logo">
+                    <a href="./index.html"><img title="北京静宇娴风" src="./Public/img/logo.jpg" alt="北京静宇娴风" /></a>
+                </div>
+                <div class="nav">
+                    <div class="search_phone cf">
+                        <input placeholder="请输入关键字" type="text" onfocus="if(this.value='请输入搜索关键词'){this.value=''}" id="search" onkeydown="keydown(event, '#btn')" />
+                        <a href="javascript:;" class="button_s" id="btn">搜索</a>
+                    </div>
+                    <ul class="cf">
+                        <!-- secondNav -->
+                        <li>
+                            <i></i> <a class="one" href="./gyjyxf.html">关于静宇娴风</a>
+                        </li>
+                        <li>
+                            <i></i> <a class="one" href="./xbjs.html">学部介绍</a>
+                            <div class="secondNav">
+                                <a href="./xbjs.html">幼儿园</a>
+                                <a href="./yxxs.html">优秀学生</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i></i> <a class="one" href="./xyss.html">校园生活</a>
+                        </li>
+                        <li>
+                            <i></i> <a class="one" href="./jkyz.html">健康驿站</a>
+                        </li>
+                        <li><a class="one" href="./zssq.html">招生申请</a></li>
+                        <li>
+                            <i></i> <a class="one" href="/xwyhd.html">新闻与活动</a>
+                        </li>
+                    </ul>
+                    <script type="text/javascript">
+                        // 高亮
+                        function navgl() {
+                            var category = "javascript:void(0);";
+
+                            var now =
+                                category != "javascript:void(0);" ?
+                                category :
+                                window.location.pathname;
+                            var categoryD = "";
+                            var categoryTD = "";
+                            var categoryLUrl = "";
+                            var categoryUrl = "";
+                            now2 = now + location.search;
+
+                            var href = "";
+                            $(".cf li ").each(function(index) {
+                                var _this = $(this);
+                                var _index = index;
+                                href = _this.children("a").attr("href");
+                                if (now == "/index.html" || now == "/index" || now == "/") {
+                                    return false;
+                                }
+                                // 一级
+                                try {
+                                    if (href.indexOf(now) > -1) {
+                                        _this.children("a").addClass("on");
+                                    }
+                                } catch (e) {}
+
+                                // 判断二级菜单只能存在一次高亮
+                                var isShow = true;
+
+                                // 二级
+                                if (_this.find(".secondNav a").size() > 0) {
+                                    _this.find(".secondNav a").each(function(i) {
+                                        href = $(this).attr("href");
+                                        if (isShow && href.indexOf(now2) > -1) {
+                                            _this.children("a").addClass("on");
+                                            $(this)
+                                                .addClass("on")
+                                                .siblings()
+                                                .removeClass("on");
+                                            isShow = false;
+                                        } else {
+                                            $(this).removeClass("on");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        navgl();
+                    </script>
+                    <script>
+                        $(function() {
+                            $("#btn").click(function() {
+                                var keywords = $("#search").val();
+                                // alert(keywords);
+                                if (keywords == "" || keywords == "请输入搜索关键词") {
+                                    my_alert("请输入搜索关键词");
+                                    return false;
+                                }
+
+                                window.location.href =
+                                    "/searchs/keywords/" + encodeURI(keywords);
+                            });
+                        });
+
+                        function keydown(e, but) {
+                            var currKey = 0,
+                                e = e || event;
+                            var _this = $(but);
+
+                            if (e.keyCode == 13) {
+                                _this.click();
+                                return false;
+                            }
+                        }
+                    </script>
+                </div>
+                <div class="share_w">
+                    <div class="w search">
+                        <a href="javascript:;" class="a"></a>
+                        <div class="search_w">
+                            <div class="i">
+                                <input type="text" placeholder="请输入关键字" onfocus="if(this.value='请输入搜索关键词'){this.value=''}" id="searchpc" onkeydown="keydown(event, '#btnpc')" />
+                            </div>
+                            <a href="javascript:;" class="button_s" id="btnpc">搜索</a>
+                        </div>
+                    </div>
+                    <div class="w wx" edit_params="width%3D1280%26height%3D1280%26zoom%3D6%26width2%3D36%26height2%3D36%26zoom2%3D0.2">
+                        <a href="javascript:;" class="a"></a>
+                        <div class="ewm">
+                            <p>010-80765678</p>
+                            <p>13901225678</p>
+                        </div>
+                        <style>
+                            .header .share_w .wx .a {
+                                background: url(./Public/img/ico_2.png) no-repeat center;
+                            }
+                        </style>
+                    </div>
+                    <div id="aaa" class="yycg">
+                        <a href="JavaScript:;">预约参观</a>
+                        <script>
+                            $(".share_w .yycg a").prepend("<i></i>");
+                            var sqli = $(".yycg a i").length;
+                            if (sqli > 1) {
+                                $(".share_w .yycg a i")
+                                    .eq(1)
+                                    .remove();
+                            }
+                        </script>
+                        <script>
+                            $(".share_w .yycg a").prepend("<i></i>");
+                            var sqli = $(".yycg a i").length;
+                            if (sqli > 1) {
+                                $(".share_w .yycg a i")
+                                    .eq(1)
+                                    .remove();
+                            }
+                        </script>
+                    </div>
+                    <style>
+                        .yycg a {
+                            color: #fff;
+                        }
+                    </style>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+        <div class="pop_wp yycg" style="display: none;" id="tankuang">
+            <div class="cont">
+                <div class="close"></div>
+                <div class="padd">
+                    <div class="tit">预约参观</div>
+                    <form id="forms" onsubmit="return false;">
+                        <div class="form">
+                            <div class="line">
+                                <div class="ipt_wp mm">
+                                    <div class="label">学生姓名：</div>
+                                    <div class="ipt">
+                                        <input type="text" value="" id="sig_nametop" name="s_name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="ipt_wp mm">
+                                    <div class="label">家长称呼：</div>
+                                    <div class="ipt">
+                                        <input type="text" value="" id="sig_jiaztop" name="p_name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="ipt_wp mm">
+                                    <div class="label">就读年级：</div>
+                                    <div class="select">
+                                        <select name="grade" id="sig_jiudunjtop">
+                        <option value="">-请选择-</option>
+                        <option value="1">小班</option
+                        ><option value="2">中班</option
+                        ><option value="3">大班</option
+                        >
+                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line">
+                                <div class="ipt_wp mm">
+                                    <div class="label">联系方式：</div>
+                                    <div class="ipt">
+                                        <input type="text" value="" id="sig_lxfstop" name="address" />
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="button2" id="topbut">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="pop_wp cg" style="display: none;" id="cgtc">
+            <div class="cont">
+                <div class="close"></div>
+                <div class="padd">
+                    <div class="l">
+                        <div class="img"><img src="./Public/static/themes/image/true1.png" title="" alt="" /></div>
+                        <div class="t1">预约成功</div>
+                    </div>
+                    <div class="r">
+                        <div class="txt">我们的招生老师将会在24小时之内与您联系，请您保持电话畅通和注意接听！</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function() {
+                $('#btnpc').click(function() {
+                    var keywords = $("#searchpc").val();
+                    // alert(keywords);
+                    if (keywords == '' || keywords == '请输入搜索关键词') {
+                        my_alert("请输入搜索关键词");
+                        return false;
+                    }
+
+                    window.location.href = "/searchs/keywords/" + encodeURI(keywords);
+                });
+            })
+
+            function keydown(e, but) {
+                var currKey = 0,
+                    e = e || event;
+                var _this = $(but);
+
+                if (e.keyCode == 13) {
+                    _this.click();
+                    return false;
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            $('#yycg').on('click', function() {
+                $('#tankuang').show();
+            });
+            $('#yycgn').on('click', function() {
+                $('#tankuang').show();
+            });
+            $('.pop_wp .close').on('click', function() {
+                $(this).parents('.pop_wp').hide();
+            });
+        </script>
+        <script type="text/javascript">
+            function refreshs() {
+                var verifyimg = $("#verify").attr("src");
+                if (verifyimg.indexOf('?') > 0) {
+                    $("#verify").attr("src", verifyimg + '&random=' + Math.random());
+                } else {
+                    $("#verify").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+                }
+            }
+
+            function verifysk(obj, type) {
+                var v = $(obj).val();
+                if (type == 'nametop') {
+
+                    if ($.trim(v) == "") {
+                        my_alert('请输入学生姓名');
+                        $('#my_ok').one('click', function() {
+                            myalert_hide();
+                            $(obj).focus();
+                        })
+
+                        return false;
+                    }
+
+
+                }
+                if (type == 'jiaztop') {
+                    if ($.trim(v) == "") {
+                        my_alert('请填写家长称呼');
+                        $('#my_ok').one('click', function() {
+                            myalert_hide();
+                            $(obj).focus();
+                        })
+
+                        return false;
+                    }
+                }
+
+
+                if (type == 'jiudunjtop') {
+
+                    if ($.trim(v) == "") {
+                        my_alert('请填写就读年级');
+                        $('#my_ok').one('click', function() {
+                            myalert_hide();
+                            $(obj).focus();
+                        })
+
+                        return false;
+                    }
+                }
+
+                if (type == 'lxfstop') {
+                    var reg = /^1[34578]{1}[0-9]{9}$/;
+                    if ($.trim(v) == "") {
+                        my_alert('请输入联系方式');
+                        $('#my_ok').one('click', function() {
+                            myalert_hide();
+                            $(obj).focus();
+                        })
+                        return false;
+                    };
+                    if (reg.test(v) === false) {
+                        my_alert('请输入正确联系方式');
+                        $('#my_ok').one('click', function() {
+                            myalert_hide();
+                            $(obj).focus();
+                        })
+                        return false;
+                    };
+                }
+                if (type == 'tuyzmtop') {
+
+                    if (v == '') {
+                        my_alert('请输入图片验证码');
+                        $(obj).focus();
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            $('#topbut').click(function() {
+                if (!verifysk('#sig_nametop', 'nametop')) {
+                    return false
+                };
+                if (!verifysk('#sig_jiaztop', 'jiaztop')) {
+                    return false
+                };
+                if (!verifysk('#sig_jiudunjtop', 'jiudunjtop')) {
+                    return false
+                };
+                if (!verifysk('#sig_lxfstop', 'lxfstop')) {
+                    return false
+                };
+                if (!verifysk('#tuyzmtop', 'tuyzmtop')) {
+                    return false
+                };
+                var data = $('#forms').serialize();
+                $.post("/savetop.html", data, function(data) {
+                    if (data['status'] == '1') {
+                        $('#cgtc').show();
+                        setTimeout("window.location.reload()", 3000);
+                        $('#my_ok').one('click', function() {
+                            $('#forms')[0].reset();
+                        })
+                    } else {
+                        my_alert(data['error']);
+                        $('#my_ok').click(function() {
+                            myalert_hide();
+                        })
+                    }
+                });
+            })
+        </script>
+
+        <div class="body_box">
+            <div class="home6 jkyz" style="background-image: url(./Public/img/jkyz_bj_1.jpg);">
+                <div class="title_con1">
+                    <div class="t1">每周食谱</div>
+                </div>
+                <div class="wrap">
+                    <div class="cont">
+                        <div class="l">
+                            <div>
+                                <div class="slider one-time" id="mealWrapper">
+                                    <!-- <div class="div">
+                                        <div class="padd">
+                                            <div class="content">
+                                                <div class="tit-english">Monday</div>
+                                                <div class="tit-chinese">星期一</div>
+                                                <div class="item">
+                                                    <div class="meal">早餐</div>
+                                                    <div class="del">
+                                                        <div>牛奶</div>
+                                                        <div>鸡蛋饼</div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="meal">加餐</div>
+                                                    <div class="del">
+                                                        <div>牛奶</div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="meal">午餐</div>
+                                                    <div class="del">
+                                                        <div>牛奶</div>
+                                                        <div>鸡蛋饼</div>
+                                                        <div>牛奶</div>
+                                                        <div>鸡蛋饼</div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="meal">加餐</div>
+                                                    <div class="del">
+                                                        <div>牛奶</div>
+                                                    </div>
+                                                </div>
+                                                <div class="item no-border">
+                                                    <div class="meal">晚餐</div>
+                                                    <div class="del">
+                                                        <div>牛奶</div>
+                                                        <div>鸡蛋饼</div>
+                                                        <div>牛奶</div>
+                                                        <div>鸡蛋饼</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <script>
+                $(function() {
+                    size1 = 3;
+                    if ($(window).width() <= 750) {
+                        size1 = 1;
+                    }
+                    $(".home6 .one-time").slick({
+                        infinite: false,
+                        speed: 500,
+                        slidesToShow: size1,
+                        touchMove: false,
+                        slidesToScroll: 1
+                    });
+                });
+            </script> -->
+            <div class="newsevents2 newsevents22">
+                <div class="wrap cf">
+                    <div class="main-cont">
+                        <div class="title_con1">
+                            <div class="t1">营养膳食</div>
+                        </div>
+                        <div class="waterfall waterfall1">
+                            <ul id="woolist" class="list">
+                                <!-- <li>
+                                    <div class="img">
+                                        <img src="./Public/img/xyss_1.jpg" alt="" title="">
+                                    </div>
+                                    <div class="cont">
+                                        <div class="h16">
+                                            VR参观 </div>
+                                        <p class="p">VR参观</p>
+                                    </div>
+                                </li> -->
+                            </ul>
+                            <a href="javascript:;" class="x-more" id="moreStudent">更多 More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                var nav1 = $(".side-nav [href='JavaScript:;']");
+                nav1.on('click', function() {
+                    $('#tankuang').show();
+                })
+                $(".side-nav [href='javascript:video(0);']").attr("Onclick", "javascript:window.open('http://p4.qiao.baidu.com/im/index?siteid=8108920&ucid=6018611&lastsubid=1776861&from=%E9%BB%91%E9%BE%99%E6%B1%9F%E5%93%88%E5%B0%94&bid=e275d58cfff2b4e9f04ad7bd&tok=1c7g5l3n4&chattype=1&groupid=&groupname=&subid=&subname=&ref=http%3A%2F%2Fwww.aidi.com%2Fadhd','','height=550,width=730,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');return false;");
+            </script>
+        </div>
+
+        <script>
+            var nav1 = $("[href='JavaScript:;']");
+            nav1.on('click', function() {
+                $('#tankuang').show();
+            })
+        </script>
+        <script>
+            var nav2 = $("[href='JavaScript:;']");
+            nav2.on('click', function() {
+                $('#tankuang').show();
+            })
+            $("[href='javascript:video(0);']").attr("Onclick", "javascript:window.open('http://p.qiao.baidu.com/cps/chatIndex?reqParam=%7B%22from%22%3A0%2C%22sid%22%3A%22-100%22%2C%22tid%22%3A%22-1%22%2C%22ttype%22%3A1%2C%22siteId%22%3A%228108920%22%2C%22userId%22%3A%226018611%22%2C%22pageId%22%3A0%7D');return false;");
+        </script>
+
+        <div class="footer">
+            <style type="text/css">
+                .footer .nav_bar .t1 a {
+                    color: #cccccc;
+                }
+            </style>
+            <div class="top">
+                <div class="wrap">
+                    <div class="l">
+                        <div class="fot_nav">
+                            <a href="./gyjyxf.html">关于静宇娴风</a
+            ><a href="./xbjs.html">学部介绍</a
+            ><a href="./xyss.html">校园生活</a
+              ><a href="./jkyz.html">健康驿站</a
+            ><a href="./zssq.html">招生申请</a
+            ><a href="./xwyhd.html">新闻与活动</a>
+                        </div>
+                        <div class="t1"><br /></div>
+                        <div class="p">
+                            地址：北京市昌平区白各庄新村绿洲水乡南区静宇娴风幼儿园
+                        </div>
+                        <div class="p">电话：010-80765678&nbsp;&nbsp;13901225678</div>
+                    </div>
+                    <div class="r">
+                        <div class="cont">
+                            <div class="div">
+                                <div class="img">
+                                    <img src="./Uploads/Picture/2018/02/27/s5a953454f2e8f.jpg" title="" alt="" />
+                                </div>
+                                <div class="p">官方微信平台</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="wrap">
+                    <div class="fot_nav"></div>
+                    <div class="copyright">
+                        ALL Rights Reserved 京ICP备13009661号—2
+                        <div class="fractal_footer"></div>
+                    </div>
+                    <div class="gotop">Back top</div>
+                </div>
+            </div>
+        </div>
+        <script type='text/javascript'>
+            (function(w, d, s, l, a) {
+                w._CommandName_ = l;
+                w[l] = w[l] || function() {
+                    (w[l].q = w[l].q || []).push(arguments);
+                    w[l].track = function() {
+                        (w[l].q[w[l].q.length - 1].t = []).push(arguments)
+                    };
+                    return w[l]
+                }, w[l].a = a, w[l].l = 1 * new Date();
+                var c = d.createElement(s);
+                c.async = 1;
+                c.src = '//fm.ipinyou.com/j/a.js';
+                var h = d.getElementsByTagName(s)[0];
+                h.parentNode.insertBefore(c, h);
+            })(window, document, 'script', 'py', 'FI..2Lth7hm_J89k2DNP21XmcP');
+            py('event', 'viewPage');
+        </script>
+        <script>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?327e69616f6370f67f5fddc2f65320c3";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+    </div>
+    <script type="text/javascript" src="//js.users.51.la/19397395.js"></script>
+    <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1260626055'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260626055' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <style type="text/css">
+        #qiao-icon-wrap .qiao-icon-head {
+            display: none
+        }
+    </style>
+    <script type='text/javascript'>
+        (function(w, d, s, l, a) {
+            w._CommandName_ = l;
+            w[l] = w[l] || function() {
+                (w[l].q = w[l].q || []).push(arguments);
+                w[l].track = function() {
+                    (w[l].q[w[l].q.length - 1].t = []).push(arguments)
+                };
+                return w[l]
+            }, w[l].a = a, w[l].l = 1 * new Date();
+            var c = d.createElement(s);
+            c.async = 1;
+            c.src = '//fm.ipinyou.com/j/a.js';
+            var h = d.getElementsByTagName(s)[0];
+            h.parentNode.insertBefore(c, h);
+        })(window, document, 'script', 'py', 'FI..2Lth7hm_J89k2DNP21XmcP');
+        py('event', 'viewPage');
+    </script>
+    <script type="text/javascript" src="./Public/js/apply.js"></script>
+    <script type="text/javascript" src="./Public/js/common.js"></script>
+    <script>
+        //  瀑布流插件文档及示例 http://code.ciaoca.com/jquery/wookmark/demo/server
+        //  公司以往项目调用此插件案例 http://htwy.dev.4miao.net/newscenter；http://gti5g.dev.ftbj.net/cyjb.html
+
+        var wmWrap = $('#woolist');
+        var options;
+
+        getOptions();
+
+        function getOptions() {
+            wmWrap.imagesLoaded(function() {
+                if ($(window).width() > 750) {
+                    options = {
+                        itemWidth: 295,
+                        offset: 16
+                    };
+                } else {
+                    options = {
+                        autoResize: true,
+                        itemWidth: 180,
+                        flexibleWidth: '100%',
+                        offset: 10
+                    };
+                }
+
+                if (wmWrap.wookmarkInstance) {
+                    wmWrap.wookmarkInstance.clear();
+                }
+
+                wmWrap.wookmark(options);
+            });
+        }
+    </script>
+
+    <script type="text/javascript" src="./Public/js/jkyz.js"></script>
+    <script>
+        renderMeal({
+
+        });
+        var params = {
+            page: 1, //页码
+            rows: 8, //每页显示行数
+        }
+        renderStudent(params)
+        $('#moreStudent').click(function() {
+            renderStudent(params)
+        })
+    </script>
+</body>
+
+</html>

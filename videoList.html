@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>垃圾分类小达人</title>
+    <meta name="viewport" content="width=750">
+    <!-- <link rel="shortcut icon" href="./favicon.ico" />  -->
+    <script src="./static/mobile-util.js"></script>
+    <script src="./static/vue.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .bscroll-view {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .list {
+            padding: 40px 30px;
+        }
+
+        .item {
+            box-shadow: 0 0 15px rgba(0, 0, 0, .5);
+            height: 400px;
+            margin: 0 0 40px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .itemHead {
+            height: 300px;
+            background-color: #000;
+        }
+
+        .itemVideo {
+            height: 300px;
+            /* width: 690px; */
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .itemVideoIcon::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            left: 50%;
+            top: 50%;
+            margin-left: -50px;
+            margin-top: -50px;
+            background: url(./static/imgs/video.png);
+            background-size: 100px 100px;
+            background-repeat: no-repeat;
+        }
+        .itemImg {
+            display: block;
+            width: 100%;
+            /* height: 100%;
+            margin: 0 auto; */
+        }
+
+        .itemBody {
+            padding: 0 30px;
+            display: flex;
+        }
+
+        .itemName {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 34px;
+            line-height: 100px;
+            height: 100px;
+        }
+
+        .itemFabulous {
+            width: 140px;
+            box-sizing: border-box;
+        }
+
+        .itemFabulousIcon {
+            display: block;
+            margin: 0 auto;
+            width: 45px;
+            height: 45px;
+            margin: 15px 0 0 0;
+        }
+
+        .itemFabulousNum {
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .itemFabulousBtn {
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid #0095ff;
+            color: #0095ff;
+            font-size: 17px;
+            margin: 25px auto 0 auto;
+        }
+        .itemFabulousBtnActive {
+            /* background-color: rgba(0, 0, 0, .5); */
+            background-color: #0095ff;
+            color: #fff;
+        }
+        .itemFabulousBtnClose {
+            background-color: rgba(0, 0, 0, .5);
+            color: #fff;
+        }
+
+        .itemFabulousBtnNum {
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .loading {
+            display: block;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 40px;
+            color: rgba(0, 0, 0, .2);
+        }
+
+        .loading img {
+            width: 50px;
+            height: 50px;
+        }
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -175px;
+            background: rgba(0, 0, 0, .6);
+            color: #fff;
+            border-radius: 10px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            z-index: 100;
+            width: 100px;
+            font-size: 30px;
+            width: 350px;
+        }
+    </style>
+    <script src="./static/axios.min.js"></script>
+    <script src="./static/bscroll.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="bscroll-view">
+            <div class="list">
+                <div class="item" v-for="(item, index) of list" :key="index">
+                    <div class="itemHead">
+                        <div class="itemVideo itemVideoIcon" v-if="!item.play" @click="playVideo(index)">
+                            <img class="itemImg" :src="item.sv_id === 1 ? item.sv_image : pageData.videoUrl + item.sv_image"  alt="">
+                        </div>
+                        <!-- <video v-if="item.play" :src="item.sv_id === 1 ? item.smallVideo_url : pageData.videoUrl + item.smallVideo_url" autoplay webkit-playsinline controls :poster="item.sv_id === 1 ? pageData.sv_image : pageData.videoUrl + item.sv_image" alt="" class="itemVideo"> -->
+                        <!-- <iframe v-if="item.play" :src="item.sv_id === 1 ? item.smallVideo_url : pageData.videoUrl + item.smallVideo_url"  alt="" class="itemVideo"></iframe> -->
+                        <iframe v-if="item.play" :src="item.smallVideo_wurl"  alt="" class="itemVideo"></iframe>
+                    </div>
+                    <div class="itemBody">
+                        <div class="itemName">{{item.sv_title}}</div>
+                        <div class="itemFabulous">
+                            <div class="itemFabulousBtn" :class="{'itemFabulousBtnActive': vote == item.sv_id}" @click="toFabulous(index)">{{vote == item.sv_id ? '已投票' : '投票'}} <div class="itemFabulousBtnNum">{{item.tpNum}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="loading" v-if="loading">
+                    <img src="./static/imgs/loading.gif" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="toast" v-if="toastShow">{{toast}}~</div>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            pageData: {
+                url: '',
+                code: ''
+            },
+            list: [
+                // {
+                //     sv_id: 1,
+                //     tpNum: 1,
+                //     sv_title: '吱吱ccc吱吱这些',
+                //     play: false,
+                //     sv_image: 'https://vdposter.bdstatic.com/24ed9b034ea31692d7ee8ee048b2da2e.jpeg?x-bce-process=image/resize,m_fill,w_242,h_182/format,f_jpg/quality,Q_100',
+                //     smallVideo_url: 'http://player.youku.com/embed/XMTQ5OTEyOTU2NA'
+                // }
+            ],
+            vote: null,
+            scroll: null,
+            wxData: {
+                appId: '',
+                appSerect: ''
+            },
+            requestData: {
+                page: 1,
+                rows: 10
+            },
+            loading: false,
+            toast: '投票成功！',
+            toastShow: false
+        },
+        methods: {
+            playVideo(index) {
+                this.list[index].play = true
+            },
+            // 获取列表
+            getList() {
+                if (this.loading) {
+                    return
+                }
+                this.loading = true
+                axios({
+                    method: 'post',
+                    url: this.pageData.url + 'smallVideoController/appSmallVideoList.do',
+                    data: this.requestData,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((res) => {
+                    console.log(res)
+                    for (let i = 0; i <res.data.data.rows.length; i++) {
+                        res.data.data.rows[i].play = false
+                    }
+                    this.list = this.list.concat(res.data.data.rows)
+                    this.requestData.page++
+                    this.loading = false
+                    this.$nextTick(() => {
+                        this.scroll.refresh() // DOM 结构发生变化后，重新初始化BScroll
+                    })
+                    this.scroll.finishPullUp();//可以多次执行上拉刷新
+                }).catch((err) => {
+                    this.loading = false
+                })
+            },
+            // 点赞
+            toFabulous(index) {
+                // 已投过票
+                if (this.vote !== null) {
+                    this.toast = '已经投票过了哦'
+                    this.toastShow = true
+                    setTimeout(() => {
+                        this.toastShow = false
+                    }, 1000)
+                    return
+                }
+                axios({
+                    method: 'post',
+                    url: this.pageData.url + 'smallVideoController/updateSmallVideo.do',
+                    data: {
+                        wxcode: this.pageData.code,
+                        sv_id: this.list[index].sv_id
+                    },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((res) => {
+                    if (res.data.code == "404") {
+                        this.toast = res.data.msg;
+                        this.toastShow = true
+                        setTimeout(() => {
+                            this.toastShow = false
+                        }, 1000)
+                        return
+                    }
+                    localStorage.setItem("vote", this.list[index].sv_id);
+                    this.vote = this.list[index].sv_id
+                    this.list[index].tpNum++
+                    this.toast = '投票成功！'
+                    this.toastShow = true
+                    setTimeout(() => {
+                        this.toastShow = false
+                    }, 1000)
+                })
+            },
+            /* 获取当前服务器地址 */
+            getRootPath() {
+                var curWwwPath = window.document.location.href; //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+                var pathName = window.document.location.pathname; //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+                var pos = curWwwPath.indexOf(pathName);
+                var localhostPaht = curWwwPath.substring(0, pos); //获取主机地址，如： http://localhost:8083
+                var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1); //获取带"/"的项目名，如：/uimcardprj
+                console.log(curWwwPath)
+                return (localhostPaht + projectName + "/");
+            },
+            /* 地址栏参数截取 */
+            GetQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+        },
+        created() {
+            this.pageData = {
+                
+                videoUrl: 'http://hcjclub.com/getFileController/getFile.do?fileName=',
+                // videoUrl: this.getRootPath() + 'getFileController/getFile.do?fileName=',
+                url: this.getRootPath(),
+                code: this.GetQueryString('code')
+            }
+            console.log(this.pageData)
+            // localStorage.clear();
+            this.vote = localStorage.getItem("vote")
+            this.getList()
+        },
+        mounted() {
+            let wrapper = document.querySelector('.bscroll-view')
+            this.scroll = new BScroll(wrapper, {
+                pullUpLoad: {
+                    threshold: 744
+                },
+                mouseWheel: true, 
+                click: true, 
+                tap: true,
+                useTransition: false
+            })
+
+            this.scroll.on("pullingUp", () => {
+                console.log("上拉加载")
+                this.getList()
+            });
+        }
+    })
+</script>
+
+</html>

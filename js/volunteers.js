@@ -1,0 +1,34 @@
+/* 获取当前服务器地址 */
+function getRootPath() {
+    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+    var curWwwPath = window.document.location.href;
+    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName = window.document.location.pathname;
+    var pos = curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    var localhostPaht = curWwwPath.substring(0, pos);
+    //获取带"/"的项目名，如：/uimcardprj
+    var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    return (localhostPaht + projectName + "/");
+}
+var httpXhr = getRootPath();
+
+$(document).ready(function () {
+
+    var winHeight=$(window).height();    
+    var winwidth=$(window).width();
+
+    $(".join_us").css("left",(winwidth-250)/2);
+
+    var random = Math.random();
+    // 加入我们
+    $(".join_us").click(function () {
+        var re_val = $(".join_us").attr("value");
+        if (re_val != "") {
+            alert("您已是注册会员！");
+            return;
+        }
+        location.href = "register.jsp?index=0";
+    });
+
+});
